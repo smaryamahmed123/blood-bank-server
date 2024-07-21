@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json()); // Parse JSON bodies
 // app.use(cors()); // Enable CORS
 app.use(cors({
-  origin: 'https://your-frontend.netlify.app', // Update with your frontend URL
+  origin: 'https://mellifluous-madeleine-b83366.netlify.app', // Update with your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -55,7 +55,9 @@ if (process.env.NODE_ENV === 'production') {
 
 // Connect to MongoDB and start the server
 mongoDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`App is running on port http://localhost:${PORT}`);
-    });
+  app.listen(PORT, () => {
+    console.log(`App is running on port http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.error('Failed to connect to MongoDB', err);
 });

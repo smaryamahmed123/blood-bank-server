@@ -19,6 +19,12 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+
+app.use((req, res, next) => {
+  console.log(`Request received: ${req.method} ${req.url}`);
+  next();
+});
+
 const ensureUploadsDirExists = () => {
   const uploadsDir = path.resolve('uploads');
   if (!fs.existsSync(uploadsDir)) {

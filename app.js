@@ -1,5 +1,3 @@
-// app.js
-
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
@@ -14,16 +12,13 @@ import testimonialRoutes from './router/testimonialRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json()); // Parse JSON bodies
-// app.use(cors()); // Enable CORS
+app.use(express.json());
 app.use(cors({
-  origin: 'https://mellifluous-madeleine-b83366.netlify.app', // Update with your frontend URL
+  origin: 'https://mellifluous-madeleine-b83366.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Ensure the 'uploads' directory exists on server startup
 const ensureUploadsDirExists = () => {
   const uploadsDir = path.resolve('uploads');
   if (!fs.existsSync(uploadsDir)) {
@@ -37,14 +32,12 @@ app.get('/', (req, res) => {
   res.send('Backend is running');
 });
 
-// Serve uploaded files statically
 app.use('/uploads', express.static('uploads'));
 app.use('/api/reviews', testimonialRoutes);
-app.use('/api/auth', router); // Routes for authentication
-app.use('/api/form', contactRouter); // Routes for form handling
-app.use('/api/forms', DonerRouter); // Routes for donor handling
+app.use('/api/auth', router);
+app.use('/api/form', contactRouter);
+app.use('/api/forms', DonerRouter);
 
-// Serve static files from the React app
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../Client/blood-bank/dist')));
@@ -53,7 +46,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Connect to MongoDB and start the server
 mongoDB().then(() => {
   app.listen(PORT, () => {
     console.log(`App is running on port http://localhost:${PORT}`);

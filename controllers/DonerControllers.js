@@ -224,33 +224,62 @@ const fileFilter = (req, file, cb) => {
 export const upload = multer({ storage, fileFilter });  
 
 // Controller to add a new donor with image upload
+// export const addDonor = async (req, res) => {
+//   const { name, bloodGroup, contactInfo, messages } = req.body;
+
+//   try {
+//     // Validate phone number format
+//     if (!validator.isMobilePhone(contactInfo, 'any')) {
+//       return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
+//     }
+
+//     let image = '';
+//     if (req.file) {
+//       image = req.file.path; // Save the path to the uploaded image
+//     } else {
+//       return res.status(400).json({ message: 'Image is required.' });
+//     }
+
+//     // Create new donor instance
+//     const donor = new Donor({ name, bloodGroup, contactInfo, messages, image });
+
+//     // Save donor to database
+//     const newDonor = await donor.save();
+//     res.status(201).json(newDonor);
+//   } catch (error) {
+//     console.error('Error registering donor:', error);
+//     res.status(500).json({ message: 'Internal server error', error: error.message });
+//   }
+// };
 export const addDonor = async (req, res) => {
   const { name, bloodGroup, contactInfo, messages } = req.body;
+  console.log('Received data:', req.body);
 
   try {
-    // Validate phone number format
     if (!validator.isMobilePhone(contactInfo, 'any')) {
       return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
     }
 
     let image = '';
     if (req.file) {
-      image = req.file.path; // Save the path to the uploaded image
+      image = req.file.path;
+      console.log('Image uploaded:', image);
     } else {
       return res.status(400).json({ message: 'Image is required.' });
     }
 
-    // Create new donor instance
     const donor = new Donor({ name, bloodGroup, contactInfo, messages, image });
+    console.log('Saving donor:', donor);
 
-    // Save donor to database
     const newDonor = await donor.save();
+    console.log('Donor saved:', newDonor);
     res.status(201).json(newDonor);
   } catch (error) {
     console.error('Error registering donor:', error);
     res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 };
+
 
 // Controller to get all donors
 export const getAllDonors = async (req, res) => {

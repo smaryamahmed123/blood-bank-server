@@ -256,9 +256,9 @@ export const addDonor = async (req, res) => {
   console.log('Received data:', req.body);
 
   try {
-    if (!validator.isMobilePhone(contactInfo, 'en-PK')) {
-      return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
-    }
+    // if (!validator.isMobilePhone(contactInfo, 'en-PK')) {
+    //   return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
+    // }
 
     let image = '';
     if (req.file) {

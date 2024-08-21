@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://mellifluous-madeleine-b83366.netlify.app',
+  origin: 'https://mern-stack-blood-bank-app.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

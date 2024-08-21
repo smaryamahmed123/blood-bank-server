@@ -13,7 +13,7 @@ const donorSchema = new mongoose.Schema({
   },
   contactInfo: {
     type: String,
-    required: true,
+    // required: true,
     // Add custom validation if needed
   },
   messages: {

@@ -136,7 +136,7 @@ import validator from 'validator';
 // Controller to add a new donor
 export const addDonor = async (req, res) => {
   const { name, bloodGroup, contactInfo, messages } = req.body;
-
+  console.log('Received data:', req.body);
   try {
     if (!name) {
       return res.status(400).json({ message: 'Name is required.' });

@@ -4,6 +4,6 @@ import { addDonor, getAllDonors, upload } from '../controllers/DonerControllers.
 const DonerRouter = express.Router();
 
 DonerRouter.get('/doner', getAllDonors);
-DonerRouter.post('/doner', upload.single('image'), addDonor);
-
+DonerRouter.post('/doner', addDonor);
+//  upload.single('image'),
 export default DonerRouter;

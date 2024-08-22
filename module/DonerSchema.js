@@ -20,10 +20,10 @@ const donorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String, // Store the path to the uploaded image
-    required: true
-  },
+  // image: {
+  //   type: String, // Store the path to the uploaded image
+  //   required: true
+  // },
 });
 
 const Donor = mongoose.model('Donor', donorSchema);

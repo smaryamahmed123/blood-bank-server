@@ -202,26 +202,26 @@ const ensureUploadsDirExists = () => {
 };
 
 // Multer configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    ensureUploadsDirExists(); // Ensure 'uploads' directory exists
-    cb(null, 'uploads/'); // Directory where uploaded files will be stored
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname)); // Generate unique filename
-  }
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     ensureUploadsDirExists(); // Ensure 'uploads' directory exists
+//     cb(null, 'uploads/'); // Directory where uploaded files will be stored
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+//     cb(null, uniqueSuffix + path.extname(file.originalname)); // Generate unique filename
+//   }
+// });
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Invalid file type. Only image files are allowed.'));
-  }
-};
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype.startsWith('image/')) {
+//     cb(null, true);
+//   } else {
+//     cb(new Error('Invalid file type. Only image files are allowed.'));
+//   }
+// };
 
-export const upload = multer({ storage, fileFilter });  
+// export const upload = multer({ storage, fileFilter });  
 
 // Controller to add a new donor with image upload
 // export const addDonor = async (req, res) => {
@@ -257,20 +257,20 @@ export const addDonor = async (req, res) => {
 
   try {
     console.log('Received data:', req.body);
-    console.log('Received file:', req.file);
+    // console.log('Received file:', req.file);
     if (!validator.isMobilePhone(contactInfo, 'any')) {
       return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
     }
 
-    let image = '';
-    if (req.file) {
-      image = req.file.path;
-      console.log('Image uploaded:', image);
-    } else {
-      return res.status(400).json({ message: 'Image is required.' });
-    }
+    // let image = '';
+    // if (req.file) {
+    //   image = req.file.path;
+    //   console.log('Image uploaded:', image);
+    // } else {
+    //   return res.status(400).json({ message: 'Image is required.' });
+    // }
 
-    const donor = new Donor({ name, bloodGroup, contactInfo, messages, image });
+    const donor = new Donor({ name, bloodGroup, contactInfo, messages, });
     console.log('Saving donor:', donor);
 
     const newDonor = await donor.save();

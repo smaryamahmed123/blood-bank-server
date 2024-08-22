@@ -256,6 +256,8 @@ export const addDonor = async (req, res) => {
   console.log('Received data:', req.body);
 
   try {
+    console.log('Received data:', req.body);
+    console.log('Received file:', req.file);
     if (!validator.isMobilePhone(contactInfo, 'any')) {
       return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
     }

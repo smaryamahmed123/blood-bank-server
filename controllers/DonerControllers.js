@@ -135,34 +135,18 @@ import validator from 'validator';
 
 // Controller to add a new donor
 export const addDonor = async (req, res) => {
-  console.log('Received data:', req.body);
-
-  const { name, bloodGroup, contactInfo, messages } = req.body;
+  console.log('Headers:', req.headers);
+  console.log('Request Body:', req.body); // Log request body
   try {
-      if (!name) {
-          return res.status(400).json({ message: 'Name is required.' });
-      }
+      const { name, bloodGroup, contactInfo, messages } = req.body;
 
-      if (!bloodGroup) {
-          return res.status(400).json({ message: 'Blood group is required.' });
-      }
+      if (!name) return res.status(400).json({ message: 'Name is required.' });
+      if (!bloodGroup) return res.status(400).json({ message: 'Blood group is required.' });
+      if (!contactInfo) return res.status(400).json({ message: 'Contact info is required.' });
+      if (!messages) return res.status(400).json({ message: 'Messages are required.' });
 
-      if (!contactInfo) {
-          return res.status(400).json({ message: 'Contact info is required.' });
-      }
-
-      if (!messages) {
-          return res.status(400).json({ message: 'Messages are required.' });
-      }
-
-      // Ensure contactInfo is a string before validating
-      if (typeof contactInfo !== 'string') {
-          return res.status(400).json({ message: 'Contact info must be a string.' });
-      }
-
-      if (!validator.isMobilePhone(contactInfo, 'any')) {
-          return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
-      }
+      if (typeof contactInfo !== 'string') return res.status(400).json({ message: 'Contact info must be a string.' });
+      if (!validator.isMobilePhone(contactInfo, 'any')) return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
 
       const donor = new Donor({ name, bloodGroup, contactInfo, messages });
       const newDonor = await donor.save();
@@ -172,6 +156,7 @@ export const addDonor = async (req, res) => {
       res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 };
+
 
 
 // Controller to get all donors

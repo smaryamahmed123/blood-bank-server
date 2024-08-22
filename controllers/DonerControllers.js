@@ -138,9 +138,27 @@ export const addDonor = async (req, res) => {
   const { name, bloodGroup, contactInfo, messages } = req.body;
 
   try {
-    if (!name || !bloodGroup || !contactInfo || !messages) {
-      return res.status(400).json({ message: 'All fields are required.' });
+    if (!name) {
+      return res.status(400).json({ message: 'Name is required.' });
     }
+
+    if (!bloodGroup) {
+      return res.status(400).json({ message: 'Blood group is required.' });
+    }
+
+    if (!contactInfo) {
+      return res.status(400).json({ message: 'Contact info is required.' });
+    }
+
+    if (!messages) {
+      return res.status(400).json({ message: 'Messages are required.' });
+    }
+
+    // Ensure contactInfo is a string before validating
+    if (typeof contactInfo !== 'string') {
+      return res.status(400).json({ message: 'Contact info must be a string.' });
+    }
+
 
     // Ensure contactInfo is a string before validating
     if (typeof contactInfo !== 'string') {

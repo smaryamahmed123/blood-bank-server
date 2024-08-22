@@ -135,49 +135,44 @@ import validator from 'validator';
 
 // Controller to add a new donor
 export const addDonor = async (req, res) => {
-  const { name, bloodGroup, contactInfo, messages } = req.body;
   console.log('Received data:', req.body);
+
+  const { name, bloodGroup, contactInfo, messages } = req.body;
   try {
-    if (!name) {
-      return res.status(400).json({ message: 'Name is required.' });
-    }
+      if (!name) {
+          return res.status(400).json({ message: 'Name is required.' });
+      }
 
-    if (!bloodGroup) {
-      return res.status(400).json({ message: 'Blood group is required.' });
-    }
+      if (!bloodGroup) {
+          return res.status(400).json({ message: 'Blood group is required.' });
+      }
 
-    if (!contactInfo) {
-      return res.status(400).json({ message: 'Contact info is required.' });
-    }
+      if (!contactInfo) {
+          return res.status(400).json({ message: 'Contact info is required.' });
+      }
 
-    if (!messages) {
-      return res.status(400).json({ message: 'Messages are required.' });
-    }
+      if (!messages) {
+          return res.status(400).json({ message: 'Messages are required.' });
+      }
 
-    // Ensure contactInfo is a string before validating
-    if (typeof contactInfo !== 'string') {
-      return res.status(400).json({ message: 'Contact info must be a string.' });
-    }
+      // Ensure contactInfo is a string before validating
+      if (typeof contactInfo !== 'string') {
+          return res.status(400).json({ message: 'Contact info must be a string.' });
+      }
 
+      if (!validator.isMobilePhone(contactInfo, 'any')) {
+          return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
+      }
 
-    // Ensure contactInfo is a string before validating
-    if (typeof contactInfo !== 'string') {
-      return res.status(400).json({ message: 'Contact info must be a string.' });
-    }
-
-
-    if (!validator.isMobilePhone(contactInfo, 'any')) {
-      return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
-    }
-
-    const donor = new Donor({ name, bloodGroup, contactInfo, messages });
-    const newDonor = await donor.save();
-    res.status(201).json(newDonor);
+      const donor = new Donor({ name, bloodGroup, contactInfo, messages });
+      const newDonor = await donor.save();
+      res.status(201).json(newDonor);
   } catch (error) {
-    console.error('Error registering donor:', error);
-    res.status(500).json({ message: 'Internal server error', error: error.message });
+      console.error('Error registering donor:', error);
+      res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 };
+
 
 // Controller to get all donors
 export const getAllDonors = async (req, res) => {

@@ -138,6 +138,16 @@ export const addDonor = async (req, res) => {
   const { name, bloodGroup, contactInfo, messages } = req.body;
 
   try {
+    if (!name || !bloodGroup || !contactInfo || !messages) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    // Ensure contactInfo is a string before validating
+    if (typeof contactInfo !== 'string') {
+      return res.status(400).json({ message: 'Contact info must be a string.' });
+    }
+
+
     if (!validator.isMobilePhone(contactInfo, 'any')) {
       return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
     }

@@ -151,6 +151,8 @@ export const addDonor = async (req, res) => {
       if (typeof contactInfo !== 'string') return res.status(400).json({ message: 'Contact info must be a string.' });
       if (!validator.isMobilePhone(contactInfo, 'any')) return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
 
+      if (!imagePath) return res.status(400).json({ message: 'Image upload failed. Image path is empty.' });
+
       const donor = new Donor({ name, bloodGroup, contactInfo, messages, image: imagePath });
       const newDonor = await donor.save();
       res.status(201).json(newDonor);

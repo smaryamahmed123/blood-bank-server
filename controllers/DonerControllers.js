@@ -136,9 +136,12 @@ import validator from 'validator';
 // Controller to add a new donor
 export const addDonor = async (req, res) => {
   console.log('Headers:', req.headers);
-  console.log('Request Body:', req.body); // Log request body
+  console.log('Request Body:', req.body);
+  console.log('Uploaded File:', req.file); // Log uploaded file info
+
   try {
       const { name, bloodGroup, contactInfo, messages } = req.body;
+      const imagePath = req.file ? req.file.path : '';
 
       if (!name) return res.status(400).json({ message: 'Name is required.' });
       if (!bloodGroup) return res.status(400).json({ message: 'Blood group is required.' });
@@ -148,7 +151,7 @@ export const addDonor = async (req, res) => {
       if (typeof contactInfo !== 'string') return res.status(400).json({ message: 'Contact info must be a string.' });
       if (!validator.isMobilePhone(contactInfo, 'any')) return res.status(400).json({ valid: false, message: 'Invalid phone number format.' });
 
-      const donor = new Donor({ name, bloodGroup, contactInfo, messages });
+      const donor = new Donor({ name, bloodGroup, contactInfo, messages, image: imagePath });
       const newDonor = await donor.save();
       res.status(201).json(newDonor);
   } catch (error) {
@@ -156,8 +159,6 @@ export const addDonor = async (req, res) => {
       res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 };
-
-
 
 // Controller to get all donors
 export const getAllDonors = async (req, res) => {
